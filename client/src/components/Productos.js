@@ -36,11 +36,11 @@ class Productos extends Component{
                         <div className="col-12">
                             <div className="row bg-white">
                                 <div className="imagen-catalogo">
-                                    <img src={'/assets/'+producto.imagen} className="img-fluid"/>
+                                    <img src={'/assets/'+producto.imagen} className="img-fluid" alt="" />
                                 </div>
                             </div>
                         </div>
-                        <h3></h3>
+                        <h3>Name</h3>
                         <div className="col-12">
                             <div className="row">
                                 <div className="col-8 p-0"><small className="font-weight-bold">Precio de lista:</small> </div>

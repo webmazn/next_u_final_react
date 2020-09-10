@@ -25,7 +25,7 @@ class Home extends Component{
                         <div className="col-lg-3 col-md-6 col-sm-12">
                         <form>
                             <div className="form-group">
-                                <label for="exampleInputEmail1" className="h5">¿Qué estas buscando?</label>
+                                <label className="h5">¿Qué estas buscando?</label>
                                 <input type="text" className="form-control" name="filterProducto" placeholder="Buscar producto"/>
                             </div>
                         </form>
