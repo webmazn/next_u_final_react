@@ -18,10 +18,9 @@ class Productos extends Component{
         const API_URI = 'http://localhost:3000';
         request.get(`${API_URI}/productos`)
         .end((err, res)=>{
-            console.log(err);
-            console.log(res);
-            console.log(res.body.message);
-
+            // console.log(err);
+            // console.log(res);
+            // console.log(res.body.message);
             this.setState({
                 productos: res.body
             })
@@ -31,7 +30,7 @@ class Productos extends Component{
     render(){
         const todos = this.state.productos.map((producto, i) => {
             return (
-                <div className="col-lg-3 col-md-6 p-3">
+                <div className="col-lg-3 col-md-6 p-3" key={i}>
                     <div className="productos">
                         <div className="col-12">
                             <div className="row bg-white">
@@ -40,7 +39,7 @@ class Productos extends Component{
                                 </div>
                             </div>
                         </div>
-                        <h3>Name</h3>
+                        <h3>{producto.nombre}</h3>
                         <div className="col-12">
                             <div className="row">
                                 <div className="col-8 p-0"><small className="font-weight-bold">Precio de lista:</small> </div>
@@ -59,7 +58,7 @@ class Productos extends Component{
                                 <div className="btn-group m-0">
                                 <button className="btn btn-primary btn-sm">Ver Más</button>
                                 <button className="btn btn-warning btn-sm">Añadir</button>
-                                    <input type="number" className="form-control form-control-sm rounded-right cantidad" min="1" max="20" value="1" />
+                                    <input type="number" className="form-control form-control-sm rounded-right cantidad" min="1" max="20" />
                                 </div>
                             </div>
 
