@@ -8,39 +8,52 @@ class Productos extends Component{
 
     constructor () {
         super();
+        //this.cantidades = React.createRef();       
+        this.cantidades = []
+        
         this.state = {
+            cantidad:0,
             productos: [],
             carrito
         } 
+
+        this.agregarCantidad = this.agregarCantidad.bind(this);
     } 
     
     componentDidMount() {
-        // get all entities - GET
-        //e.preventDefault();
         const API_URI = 'http://localhost:3000';
         request.get(`${API_URI}/productos`)
         .end((err, res)=>{
             // console.log(err);
             // console.log(res);
             // console.log(res.body.message);
-            this.setState({
-                productos: res.body
-            })
-        })        
+            this.setState({ productos: res.body })
+        });
+    }
+
+    agregarCantidad(e){
+        //const {value} = e.target;
+        //console.log(value, name);
+        //this.setState({ cantidad: value });
     }
 
     agregarCarrito(producto, index){
+        //producto.push(index);
         console.log(producto);
-        console.log(index);
-    }
-
-    handleInputChange(e) {
-        const {value, name} = e.target;
-        console.log(value, name);
-        this.setState({
-            [name]: value
-        });
+        console.log(this.cantidades[index].value);
+        console.log(this.cantidades[index]);
+        this.cantidades[index].value = 0
+        //this.cantidades.current.style.color = 'tomato'
+        //this.target.value = 0;
     }    
+
+    // handleInputChange(e) {
+    //     const {value, name} = e.target;
+    //     console.log(value, name);
+    //     this.setState({
+    //         [name]: value
+    //     });
+    // }    
 
     render(){
         const todos = this.state.productos.map((producto, i) => {
@@ -71,9 +84,9 @@ class Productos extends Component{
 
                             <div className="row py-2 d-flex justify-content-center">
                                 <div className="btn-group m-0">
-                                <   button className="btn btn-primary btn-sm">Ver Más</button>
+                                    <button className="btn btn-primary btn-sm">Ver Más</button>
                                     <button className="btn btn-warning btn-sm" onClick={this.agregarCarrito.bind(this, producto, i)}>Añadir</button>
-                                    <input type="number" className="form-control form-control-sm rounded-right cantidad" name="cantidad" min="1" max="20"  />
+                                    <input type="number" className="form-control form-control-sm rounded-right cantidad" id={'num'+i} ref={(ref) => { this.cantidades[i] = ref; return true; }} name="cantidad" min="1" max="20" onChange={this.agregarCantidad}  />
                                 </div>
                             </div>
 
