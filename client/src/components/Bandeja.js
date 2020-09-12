@@ -3,13 +3,6 @@ import '../css/Home.css';
 import Navegacion from './Navegacion';
 
 class Bandeja extends Component{
-    constructor () {
-        super();
-        this.state = {
-            carrito: 0,
-        };
-    }    
-    
     render(){
         return (
             <div className="container-fluid bg-home">

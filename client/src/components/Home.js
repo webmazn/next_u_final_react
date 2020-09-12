@@ -4,13 +4,7 @@ import Navegacion from './Navegacion';
 import Productos from './Productos';
 
 class Home extends Component{
-    constructor () {
-        super();
-        this.state = {
-            carrito: 0,
-        };
-    }    
-    
+
     render(){
         return (
             <div className="container-fluid bg-home">

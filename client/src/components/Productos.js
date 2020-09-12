@@ -2,14 +2,16 @@ import React, {Component} from 'react';
 import '../css/Productos.css';
 import * as request from 'superagent';
 
+import { carrito } from './carrito.json';
+
 class Productos extends Component{ 
 
     constructor () {
         super();
         this.state = {
-            productos: []
-        }
-        //this.handleAddProductos = this.handleAddProductos.bind(this);
+            productos: [],
+            carrito
+        } 
     } 
     
     componentDidMount() {
@@ -26,6 +28,19 @@ class Productos extends Component{
             })
         })        
     }
+
+    agregarCarrito(producto, index){
+        console.log(producto);
+        console.log(index);
+    }
+
+    handleInputChange(e) {
+        const {value, name} = e.target;
+        console.log(value, name);
+        this.setState({
+            [name]: value
+        });
+    }    
 
     render(){
         const todos = this.state.productos.map((producto, i) => {
@@ -56,9 +71,9 @@ class Productos extends Component{
 
                             <div className="row py-2 d-flex justify-content-center">
                                 <div className="btn-group m-0">
-                                <button className="btn btn-primary btn-sm">Ver Más</button>
-                                <button className="btn btn-warning btn-sm">Añadir</button>
-                                    <input type="number" className="form-control form-control-sm rounded-right cantidad" min="1" max="20" />
+                                <   button className="btn btn-primary btn-sm">Ver Más</button>
+                                    <button className="btn btn-warning btn-sm" onClick={this.agregarCarrito.bind(this, producto, i)}>Añadir</button>
+                                    <input type="number" className="form-control form-control-sm rounded-right cantidad" name="cantidad" min="1" max="20"  />
                                 </div>
                             </div>
 
