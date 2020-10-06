@@ -2,16 +2,7 @@ import React, {Component}  from 'react';
 import '../css/Navegacion.css';
 import { NavLink } from "react-router-dom";
 
-import { carrito } from './carrito.json';
-
 class Navegacion extends Component{
-    constructor () {
-        super();
-        this.state = {
-            carrito
-        };
-    }   
-
     render(){
         return (
             <div className="container h-menu">
@@ -24,7 +15,7 @@ class Navegacion extends Component{
                         <li className="nav-item">
                             <NavLink className="nav-link px-3 position-relative" to="/carrito" activeClassName={"active"} exact>
                                 <i className="fas fa-shopping-cart"></i>
-                                <span className="badge badge-danger rounded-circle cantidadCarrito">{this.state.carrito.length}</span>
+                                <span className="badge badge-danger rounded-circle cantidadCarrito">{this.props.miCarrito}</span>
                             </NavLink>
                         </li>
                         <li className="nav-item">

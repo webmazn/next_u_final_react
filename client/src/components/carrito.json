@@ -1,6 +1,7 @@
 {
     "carrito": [
       {        
+        "id": 0,
         "nombre": "",
         "precio": 0,
         "disponibles": 0,

@@ -1,8 +1,5 @@
 import React, {Component} from 'react';
 import '../css/Productos.css';
-import * as request from 'superagent';
-
-import { carrito } from './carrito.json';
 
 class Productos extends Component{ 
 
@@ -11,15 +8,14 @@ class Productos extends Component{
         //this.cantidades = React.createRef();       
         this.cantidades = []
         
-        this.state = {
-            cantidad:0,
+        /*this.state = {
             productos: [],
             carrito
-        } 
+        }*/
 
-        this.agregarCantidad = this.agregarCantidad.bind(this);
+        //this.agregarCantidad = this.agregarCantidad.bind(this);
     } 
-    
+    /*
     componentDidMount() {
         const API_URI = 'http://localhost:3000';
         request.get(`${API_URI}/productos`)
@@ -35,16 +31,23 @@ class Productos extends Component{
         //const {value} = e.target;
         //console.log(value, name);
         //this.setState({ cantidad: value });
-    }
+    }*/
 
     agregarCarrito(producto, index){
-        //producto.push(index);
-        console.log(producto);
-        console.log(this.cantidades[index].value);
-        console.log(this.cantidades[index]);
-        this.cantidades[index].value = 0
-        //this.cantidades.current.style.color = 'tomato'
-        //this.target.value = 0;
+        
+        //console.log(producto);
+        //console.log(this.cantidades[index].value);
+        //console.log(this.cantidades[index]);
+        producto['cantidad'] = (this.cantidades[index].value=="") ? 1 : this.cantidades[index].value
+        //console.log("==============================");
+        //console.log(producto);
+
+        this.cantidades[index].value = producto['cantidad']
+
+        this.props.actualizarCarrito(producto)
+        // this.setState({
+        //     carrito : [...this.state.carrito, producto]
+        // })
     }    
 
     // handleInputChange(e) {
@@ -56,7 +59,7 @@ class Productos extends Component{
     // }    
 
     render(){
-        const todos = this.state.productos.map((producto, i) => {
+        const todos = this.props.misProductos.map((producto, i) => {
             return (
                 <div className="col-lg-3 col-md-6 p-3" key={i}>
                     <div className="productos">
@@ -71,7 +74,7 @@ class Productos extends Component{
                         <div className="col-12">
                             <div className="row">
                                 <div className="col-8 p-0"><small className="font-weight-bold">Precio de lista:</small> </div>
-                                <div className="col-4 p-0 "><small>{producto.precio}</small></div>
+                                <div className="col-4 p-0 "><small>${producto.precio.toFixed(2)}</small></div>
                             </div>
                         </div>
                         <div className="col-12">

@@ -1,20 +1,71 @@
 import React, {Component} from 'react';
-import '../css/Home.css';
+import '../css/Carrito.css';
 import Navegacion from './Navegacion';
+import DetalleCarrito from './DetalleCarrito';
+import * as request from 'superagent';
 
 class Carrito extends Component{
+
     constructor () {
         super();
+        this.acumulador = 0
         this.state = {
-            carrito: 0,
-        };
-    }    
-    
+            cantidadProductos: (localStorage.getItem('carritoProductos') == undefined ? 0 : JSON.parse(localStorage.getItem('carritoProductos')).length),
+            total: 0
+        }
+    } 
+
+    componentDidMount() {
+        if(localStorage.getItem('carritoProductos') != undefined){        
+            const carrito = JSON.parse(localStorage.getItem('carritoProductos'))
+            for (let producto of carrito){
+                this.acumulador += (producto.precio * producto.cantidad)
+            }
+
+            this.setState({
+                total: this.acumulador
+            })
+        }
+        this.cantidadProductos = (localStorage.getItem('carritoProductos') == undefined) ? 0 : JSON.parse(localStorage.getItem('carritoProductos')).length;
+    }
+
+    pagarCarrito(producto){
+        const API_URI = 'http://localhost:3000';
+        // request.get(`${API_URI}/productos`)
+        // .end((err, res)=>{
+        //     this.setState({ productos: res.body })
+        // });
+        const local = localStorage.getItem('carritoProductos');
+        if(local == undefined){
+            console.log('carro vacio');
+        }else{
+            const carrito = JSON.parse(local);
+            const total = carrito.length;
+            for(const items in carrito){
+                let id = carrito[items].id;
+                let disponibles = carrito[items].disponibles;
+                let cantidad = carrito[items].cantidad;
+                let actualizado = disponibles - cantidad;
+                let acum = parseInt(items) + 1;
+                console.log(`[${total}|${items}|${acum}] => ${id} : ${disponibles} - ${cantidad} = ${actualizado} `);
+
+                request.put(`${API_URI}/producto/${id}/${actualizado}`)
+                .set('Content-Type', 'application/json')
+                .end((err, res)=>{
+                    console.log("listo!");
+                });
+            }
+            //localStorage.removeItem('carritoProductos');
+            //this.router.navigate(['/home']);
+        }
+
+    }
+
     render(){
         return (
             <div className="container-fluid bg-home">
 
-                <Navegacion />
+                <Navegacion miCarrito={this.state.cantidadProductos} />
 
                 <div className="container h-cuerpo">
                     <div className="row py-3 h-cuerpo-top">
@@ -39,31 +90,27 @@ class Carrito extends Component{
                                         <th scope="col">Sub Total</th>
                                     </tr>
                                     </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td data-encabezado="Imagen" align="center">
-                                        <img src="" className="img-fluid" alt="" />
-                                        </td>
-                                        <td data-encabezado="Nombre" align="left"></td>
-                                        <td data-encabezado="Precio" align="right"></td>
-                                        <td data-encabezado="Cantidad" align="right"></td>
-                                        <td data-encabezado="Sub Total" align="right"></td>
-                                    </tr>
-                                    </tbody>
+                                    { localStorage.getItem('carritoProductos') != undefined ? (
+                                            <DetalleCarrito misProductos={JSON.parse(localStorage.getItem('carritoProductos'))}  />
+                                        ) : (
+                                            ''
+                                        )
+
+                                    }                                    
                                     <tfoot>
                                     <tr>
                                         <td colSpan="4" align="right">Total</td>
-                                        <td align="right"></td>
+                                        <td align="right">${this.state.total.toFixed(2)}</td>
                                     </tr>
                                     </tfoot>
                                 </table>
                             </div>
                         </div>
                         <div className="col-lg-6 col-md-6 col-sm-12 text-right text-lg-left">
-                            <h4>Total: <span></span></h4>
+                            <h4>Total: <span>${this.state.total.toFixed(2)}</span></h4>
                             <div className="btn-group">
                                 <a href="/home" className="btn btn-primary btn-sm" >Cancelar</a>
-                                <button className="btn btn-warning btn-sm" >Pagar</button>
+                                <button className="btn btn-warning btn-sm" onClick={this.pagarCarrito.bind(this, JSON.parse(localStorage.getItem('carritoProductos')))}>Pagar</button>
                             </div>
                         </div>
                     </div>
