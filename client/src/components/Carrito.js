@@ -16,25 +16,24 @@ class Carrito extends Component{
     } 
 
     componentDidMount() {
-        if(typeof localStorage.getItem('carritoProductos') !== undefined){        
-            const carrito = JSON.parse(localStorage.getItem('carritoProductos'))
-            for (let producto of carrito){
-                this.acumulador += (producto.precio * producto.cantidad)
+        if(this.state.cantidadProductos>0){
+            if(typeof localStorage.getItem('carritoProductos') !== undefined){        
+                const carrito = JSON.parse(localStorage.getItem('carritoProductos'))
+                for (let producto of carrito){
+                    this.acumulador += (producto.precio * producto.cantidad)
+                }
+    
+                this.setState({
+                    total: this.acumulador
+                })
             }
-
-            this.setState({
-                total: this.acumulador
-            })
         }
         this.cantidadProductos = (localStorage.getItem('carritoProductos') == undefined) ? 0 : JSON.parse(localStorage.getItem('carritoProductos')).length;
     }
 
     pagarCarrito(producto){
         const API_URI = 'http://localhost:3000';
-        // request.get(`${API_URI}/productos`)
-        // .end((err, res)=>{
-        //     this.setState({ productos: res.body })
-        // });
+
         const local = localStorage.getItem('carritoProductos');
         if(local == undefined){
             console.log('carro vacio');

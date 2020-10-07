@@ -31,6 +31,7 @@ class Login extends Component{
           respuesta: res.body.message
         });
       }else{
+        localStorage.setItem('session','nextU');
         window.location.href="./home";
       }
     })

@@ -16,6 +16,8 @@ class Home extends Component{
         this.seleccionados = []
         
         this.state = {
+            buscador: '',
+            productosTotales: [],
             productos: [],
             cantidadProductos: (localStorage.getItem('carritoProductos') == undefined ? 0 : JSON.parse(localStorage.getItem('carritoProductos')).length),
             carrito
@@ -23,13 +25,39 @@ class Home extends Component{
     } 
 
     componentDidMount() {
+        console.log(localStorage.getItem('session'));
+        if(localStorage.getItem('session')!='nextU'){
+            window.location.href="./login";
+        }
+
         const API_URI = 'http://localhost:3000';
         request.get(`${API_URI}/productos`)
         .end((err, res)=>{
+            this.setState({ productosTotales: res.body })
             this.setState({ productos: res.body })
-        });
+        });        
 
         this.cantidadProductos = (localStorage.getItem('carritoProductos') == undefined) ? 0 : JSON.parse(localStorage.getItem('carritoProductos')).length;
+    }
+
+    onChange=async e=>{
+        e.persist();
+        await this.setState({ buscador: e.target.value});
+        console.log(this.state.buscador);
+        this.filtrarProductos();
+    }
+
+    filtrarProductos(){
+        if(this.state.buscador!=''){
+            const resultado = this.state.productosTotales.filter(item=>{
+                if(item.nombre.toLowerCase().includes(this.state.buscador)){ // .toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,"") limpia tildes a las vocales
+                    return item;
+                }
+            })
+            this.setState({ productos: resultado })
+        }else{
+            this.setState({ productos: this.state.productosTotales })
+        }
     }
 
     actualizarCarrito(producto){        
@@ -81,7 +109,7 @@ class Home extends Component{
                         <form>
                             <div className="form-group">
                                 <label className="h5">¿Qué estas buscando?</label>
-                                <input type="text" className="form-control" name="filterProducto" placeholder="Buscar producto"/>
+                                <input type="text" className="form-control" name="filterProducto" placeholder="Buscar producto" value={this.state.buscador} onChange={this.onChange}/>
                             </div>
                         </form>
                         </div>
