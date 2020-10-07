@@ -2,10 +2,6 @@ import React, {Component} from 'react';
 
 class DetalleCarrito extends Component{ 
 
-    constructor () {
-        super();
-    } 
-
     render(){
         const todos = this.props.misProductos.map((producto, i) => {
             return (

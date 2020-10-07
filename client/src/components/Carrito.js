@@ -16,7 +16,7 @@ class Carrito extends Component{
     } 
 
     componentDidMount() {
-        if(localStorage.getItem('carritoProductos') != undefined){        
+        if(typeof localStorage.getItem('carritoProductos') !== undefined){        
             const carrito = JSON.parse(localStorage.getItem('carritoProductos'))
             for (let producto of carrito){
                 this.acumulador += (producto.precio * producto.cantidad)
@@ -55,8 +55,8 @@ class Carrito extends Component{
                     console.log("listo!");
                 });
             }
-            //localStorage.removeItem('carritoProductos');
-            //this.router.navigate(['/home']);
+            localStorage.removeItem('carritoProductos');
+            window.location.href="./home";
         }
 
     }

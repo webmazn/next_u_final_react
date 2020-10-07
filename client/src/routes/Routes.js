@@ -4,6 +4,7 @@ import Login from '../components/Login';
 import Home from '../components/Home';
 import Carrito from '../components/Carrito';
 import Bandeja from '../components/Bandeja';
+import Producto from '../components/Producto';
 
 function Routes() {
   return (
@@ -13,6 +14,7 @@ function Routes() {
         <Route exact path="/home" component={Home}/>
         <Route exact path="/carrito" component={Carrito}/>
         <Route exact path="/bandeja" component={Bandeja}/>
+        <Route exact path="/producto/ver/:id" component={Producto}/>
       </Switch>
     </BrowserRouter>
   );

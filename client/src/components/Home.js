@@ -44,7 +44,7 @@ class Home extends Component{
                 posicion = detalle;
                 }
             }
-            if(posicion==''){
+            if(posicion===''){
                 this.seleccionados.push(producto);
             }else{
                 this.seleccionados[posicion].cantidad = producto.cantidad;

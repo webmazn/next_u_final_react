@@ -4,59 +4,21 @@ import '../css/Productos.css';
 class Productos extends Component{ 
 
     constructor () {
-        super();
-        //this.cantidades = React.createRef();       
+        super(); 
         this.cantidades = []
-        
-        /*this.state = {
-            productos: [],
-            carrito
-        }*/
-
-        //this.agregarCantidad = this.agregarCantidad.bind(this);
     } 
-    /*
-    componentDidMount() {
-        const API_URI = 'http://localhost:3000';
-        request.get(`${API_URI}/productos`)
-        .end((err, res)=>{
-            // console.log(err);
-            // console.log(res);
-            // console.log(res.body.message);
-            this.setState({ productos: res.body })
-        });
-    }
-
-    agregarCantidad(e){
-        //const {value} = e.target;
-        //console.log(value, name);
-        //this.setState({ cantidad: value });
-    }*/
 
     agregarCarrito(producto, index){
-        
-        //console.log(producto);
-        //console.log(this.cantidades[index].value);
-        //console.log(this.cantidades[index]);
-        producto['cantidad'] = (this.cantidades[index].value=="") ? 1 : this.cantidades[index].value
-        //console.log("==============================");
-        //console.log(producto);
+        producto['cantidad'] = (this.cantidades[index].value == "") ? 1 : this.cantidades[index].value
 
         this.cantidades[index].value = producto['cantidad']
 
         this.props.actualizarCarrito(producto)
-        // this.setState({
-        //     carrito : [...this.state.carrito, producto]
-        // })
     }    
 
-    // handleInputChange(e) {
-    //     const {value, name} = e.target;
-    //     console.log(value, name);
-    //     this.setState({
-    //         [name]: value
-    //     });
-    // }    
+    verMas(producto){
+        window.location.href="./producto/ver/"+producto.id;
+    }    
 
     render(){
         const todos = this.props.misProductos.map((producto, i) => {
@@ -87,7 +49,7 @@ class Productos extends Component{
 
                             <div className="row py-2 d-flex justify-content-center">
                                 <div className="btn-group m-0">
-                                    <button className="btn btn-primary btn-sm">Ver Más</button>
+                                    <button className="btn btn-primary btn-sm" onClick={this.verMas.bind(this, producto)}>Ver Más</button>
                                     <button className="btn btn-warning btn-sm" onClick={this.agregarCarrito.bind(this, producto, i)}>Añadir</button>
                                     <input type="number" className="form-control form-control-sm rounded-right cantidad" id={'num'+i} ref={(ref) => { this.cantidades[i] = ref; return true; }} name="cantidad" min="1" max="20" onChange={this.agregarCantidad}  />
                                 </div>
